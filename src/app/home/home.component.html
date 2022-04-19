@@ -1,0 +1,29 @@
+<h1>Hi {{currentUser?.firstName}}!</h1>
+<p>You're logged in to your HRS App!!</p>
+<h3>All registered users:</h3>
+<form [formGroup]="editForm" (ngSubmit)="updateUser()">
+
+<ul>
+  <li *ngFor="let user of users">
+    {{user?.username}} ({{user?.firstName}} {{user?.lastName}})
+    - <a (click)="editUser(user.id ,user.username)" class="text-success mr-3">Edit</a>  <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
+    <div *ngIf="editUserId && (editUserId == user.id)" class="mt-2">
+      <label for="username">Edit Username</label>
+      <input type="text" formControlName="username" class="my-2 form-control" placeholder="Please enter username"
+        [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+      <div *ngIf="submitted && f.username.errors " class="invalid-feedback mb-2 ">
+        <div *ngIf="f.username.errors.required" id="username-error-msg">Username is required</div>
+      </div>
+      <div class="form-group">
+        <button [disabled]="loading" type="submit" id="submitButton" class="btn btn-primary">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Update
+        </button>
+        <a class="btn btn-link" (click)="cancel()">Cancel</a>
+      </div>
+    </div>
+  </li>
+</ul>
+
+</form>
+
